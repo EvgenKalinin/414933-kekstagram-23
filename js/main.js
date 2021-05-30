@@ -19,19 +19,13 @@ const getRandomInt = (min, max) => {
  * Проверяет максимальную длину строки
  * @param {string} string Проверяемая строка
  * @param {number} maxLength Максимальная длина строки
- * @return {boolean} Вернет true если строка меньше или равная максимальному кол-ву символов
+ * @return {boolean} Вернет true если строка меньше или равна максимальному кол-ву символов
  */
-const isValidStringLength = (string, maxLength) => {
-  if (string.length <= maxLength) {
-    return true;
-  }
-  return false;
-};
+const isValidTextLength = (string, maxLength) => string.length <= maxLength;
 
 
 // Вызовы для Линтера
 getRandomInt(1, 100);
 
 const SUPER_STRING = 'Darth Vader';
-isValidStringLength(SUPER_STRING, 50);
-
+isValidTextLength(SUPER_STRING, 50);
