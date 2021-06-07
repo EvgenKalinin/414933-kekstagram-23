@@ -24,11 +24,11 @@ const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.le
 
 /**
  * Проверяет максимальную длину строки
- * @param {string} string Проверяемая строка
+ * @param {string} text Проверяемая строка
  * @param {number} maxLength Максимальная длина строки
  * @return {boolean} Вернет true если строка меньше или равна максимальному кол-ву символов
  */
-const isValidTextLength = (string, maxLength) => string.length <= maxLength;
+const isValidTextLength = (text, maxLength) => text.length <= maxLength;
 
 /**
  * Перемешает элементы массива
@@ -52,18 +52,13 @@ const shuffleArray = (array) => {
  * @returns {array}
  */
 const getRandonIntArray = (min, max) => {
-  let array = [];
+  let items = [];
   for (let i = min; i <= max; i++) {
-    array.push(i);
+    items.push(i);
   }
-  array = shuffleArray(array);
-  return array;
+  items = shuffleArray(items);
+  return items;
 };
-
-
-// Вызовы для Линтера
-const SUPER_STRING = 'Darth Vader';
-isValidTextLength(SUPER_STRING, 50);
 
 
 // Моки
@@ -107,7 +102,7 @@ const SURNAMES = [
   'Ирвинг',
 ];
 
-const OBJECTS_QUANTITY = 25;
+const PHOTOS_QUANTITY = 25;
 
 
 /**
@@ -151,6 +146,8 @@ const createPostedPhotos = (quantity) => {
   return elements;
 };
 
-const postedPhotos = createPostedPhotos(OBJECTS_QUANTITY);
-console.log(postedPhotos);
 
+// Вызовы для Линтера
+const SUPER_STRING = 'Darth Vader';
+isValidTextLength(SUPER_STRING, 50);
+createPostedPhotos(PHOTOS_QUANTITY);
