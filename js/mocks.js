@@ -85,8 +85,4 @@ const createPostedPhotos = (quantity) => {
   return elements;
 };
 
-
-// Вызовы для Линтера
-createPostedPhotos(PHOTOS_QUANTITY);
-
 export {createPostedPhotos, PHOTOS_QUANTITY};
