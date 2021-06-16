@@ -1,4 +1,4 @@
-import {getRandomInt, getRandomArrayElement, getRandonIntArray} from './utils.js';
+import {getRandomInt, getRandomArrayElement, getRandonIntArray} from './random.js';
 
 // Моки
 
@@ -69,7 +69,7 @@ const createComments = () => {
  * @param {number} quantity кол-во моков
  * @returns {array}
  */
-const createPostedPhotos = (quantity) => {
+const createPostedPhotos = (quantity = PHOTOS_QUANTITY) => {
   const idNumbers = getRandonIntArray(1, 25);
   const photoNumbers = getRandonIntArray(1, 25);
   const elements = new Array(quantity).fill(null);
@@ -85,4 +85,4 @@ const createPostedPhotos = (quantity) => {
   return elements;
 };
 
-export {createPostedPhotos, PHOTOS_QUANTITY};
+export {createPostedPhotos};

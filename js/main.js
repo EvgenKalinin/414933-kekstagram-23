@@ -1,3 +1,4 @@
-import {createPostedPhotos, PHOTOS_QUANTITY} from './mocks.js';
+import {createPostedPhotos} from './mocks.js';
+import {addPhotoMiniatures} from './miniatures.js';
 
-createPostedPhotos(PHOTOS_QUANTITY);
+addPhotoMiniatures(createPostedPhotos);
