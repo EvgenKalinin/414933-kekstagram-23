@@ -1,4 +1,4 @@
-import {getRandomInt, getRandomArrayElement, getRandonIntArray} from './random.js';
+import {getRandomInt, getRandomArrayItem, getRandonIntArray} from './random.js';
 
 // Моки
 
@@ -56,8 +56,8 @@ const createComments = () => {
     comments[j] = {
       id: commentIdNumbers[j],
       avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
-      comment: getRandomArrayElement(PHOTO_COMMENTS),
-      name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
+      comment: getRandomArrayItem(PHOTO_COMMENTS),
+      name: `${getRandomArrayItem(NAMES)} ${getRandomArrayItem(SURNAMES)}`,
     };
   }
   return comments;
@@ -77,7 +77,7 @@ const createPostedPhotos = (quantity = PHOTOS_QUANTITY) => {
     elements[i] = {
       id: idNumbers[i],
       url: `photos/${photoNumbers[i]}.jpg`,
-      description: getRandomArrayElement(PHOTO_DESCRIPTIONS),
+      description: getRandomArrayItem(PHOTO_DESCRIPTIONS),
       likes: getRandomInt(15, 200),
       comments: createComments(),
     };

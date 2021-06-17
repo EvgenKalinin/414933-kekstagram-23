@@ -15,24 +15,24 @@ const getRandomInt = (min, max) => {
 
 /**
  * Возвращает рандомный элемент массива.
- * @param {array} elements передаваемый массив
+ * @param {array} items передаваемый массив
  * @returns {*} вернет случайный элемент
  */
-const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length-1)];
+const getRandomArrayItem = (items) => items[getRandomInt(0, items.length-1)];
 
 /**
  * Перемешает элементы массива
- * @param {*} array
+ * @param {array} items передаваемый массив
  * @return {*}
  */
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
+const shuffleArray = (items) => {
+  for (let i = items.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+    const temp = items[i];
+    items[i] = items[j];
+    items[j] = temp;
   }
-  return array;
+  return items;
 };
 
 /**
@@ -50,4 +50,4 @@ const getRandonIntArray = (min, max) => {
   return items;
 };
 
-export {getRandomInt, getRandomArrayElement, getRandonIntArray};
+export {getRandomInt, getRandomArrayItem, getRandonIntArray};
