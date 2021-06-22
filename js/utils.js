@@ -11,6 +11,10 @@ const isValidTextLength = (text, maxLength) => text.length <= maxLength;
 //Вызовы для линтера
 isValidTextLength('goood text', 50);
 
+/**
+ * Слушает нажатие клавиши 'Esc'
+ * @param {*} evt
+ */
 const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
 export {isEscEvent};
