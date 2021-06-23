@@ -5,6 +5,4 @@ import {showPreviewOverlay} from './big-photo-overlay.js';
 const userPhotos = createPostedPhotos();
 addPhotoMiniatures(userPhotos);
 
-// NEW CODE
-
 showPreviewOverlay(userPhotos);
