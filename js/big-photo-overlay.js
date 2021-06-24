@@ -19,12 +19,16 @@ const closeOverlay = () => {
 const onOverlayCloseButtonClick =(evt) => {
   evt.preventDefault();
   closeOverlay();
+
+  overlayCloseButton.removeEventListener('click', onOverlayCloseButtonClick);
 };
 
 const onOverlayEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
     closeOverlay();
+
+    document.removeEventListener('keydown', onOverlayEscKeydown);
   }
 };
 
@@ -52,7 +56,6 @@ const showPreviewOverlay = (userPictures) => {
       pictureComments.forEach((comment) => {
         const newComment = document.createElement('li');
         newComment.classList.add('social__comment');
-        // newComment.innerHTML = `<img class="social__picture" src="${  comment.avatar  }" alt="${  comment.name }" width="35" height="35"> <p class="social__text">${  comment.comment  }</p>`;
         newComment.innerHTML = '<img class="social__picture" src="" alt="" width="35" height="35"> <p class="social__text"></p>';
         const newCommentImg = newComment.children[0];
         const newCommentP = newComment.children[1];
@@ -77,9 +80,6 @@ const showPreviewOverlay = (userPictures) => {
 
       document.addEventListener('keydown', onOverlayEscKeydown);
     });
-    // Удаляем обработчики
-    overlayCloseButton.removeEventListener('click', onOverlayCloseButtonClick);
-    document.removeEventListener('keydown', onOverlayEscKeydown);
   });
 };
 
