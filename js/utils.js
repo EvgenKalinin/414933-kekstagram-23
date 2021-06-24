@@ -1,5 +1,10 @@
 // Утилитарные функции
 
+const KEYBOARD_KEYS = [
+  'Escape',
+  'Esc',
+];
+
 /**
  * Проверяет максимальную длину строки
  * @param {string} text Проверяемая строка
@@ -10,3 +15,11 @@ const isValidTextLength = (text, maxLength) => text.length <= maxLength;
 
 //Вызовы для линтера
 isValidTextLength('goood text', 50);
+
+/**
+ * Слушает нажатие клавиши 'Esc'
+ * @param {*} evt
+ */
+const isEscEvent = (evt) => KEYBOARD_KEYS.includes(evt.key);
+
+export {isEscEvent};
