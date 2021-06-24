@@ -11,17 +11,20 @@ const commentsLoader = bigPictureOverlay.querySelector('.social__comments-loader
 const pageBody = document.body;
 const overlayCloseButton = bigPictureOverlay.querySelector('.big-picture__cancel');
 
-const onOverlayCloseButtonClick =(evt) => {
-  evt.preventDefault();
+const closeOverlay = () => {
   bigPictureOverlay.classList.add('hidden');
   pageBody.classList.remove('modal-open');
+};
+
+const onOverlayCloseButtonClick =(evt) => {
+  evt.preventDefault();
+  closeOverlay();
 };
 
 const onOverlayEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    bigPictureOverlay.classList.add('hidden');
-    pageBody.classList.remove('modal-open');
+    closeOverlay();
   }
 };
 
@@ -35,7 +38,10 @@ const showPreviewOverlay = (userPictures) => {
   pictures.forEach((picture, i) => {
     picture.addEventListener('click', () => {
       const currentPicture = userPictures[i];
-      bigPictureOverlay.classList.remove('hidden');
+
+      // Скрываем лишнее
+      commentsCount.classList.add('hidden');
+      commentsLoader.classList.add('hidden');
       bigPictureImage.src = currentPicture.url;
       bigPictureLikes.textContent = currentPicture.likes;
       bigPictureCaption.textContent = currentPicture.description;
@@ -59,9 +65,8 @@ const showPreviewOverlay = (userPictures) => {
 
       bigPictureCommentsList.appendChild(commentFragment);
 
-      // Скрываем лишнее
-      commentsCount.classList.add('hidden');
-      commentsLoader.classList.add('hidden');
+      // Покахзываем окно
+      bigPictureOverlay.classList.remove('hidden');
 
       // Вешаем класс на body
       pageBody.classList.add('modal-open');
