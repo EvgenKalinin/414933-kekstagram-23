@@ -83,4 +83,4 @@ const showPreviewOverlay = (userPictures) => {
   });
 };
 
-export {showPreviewOverlay};
+export {showPreviewOverlay, pageBody};
