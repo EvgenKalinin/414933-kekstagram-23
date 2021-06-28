@@ -1,10 +1,15 @@
 import {isEscEvent} from './utils.js';
 import {pageBody} from './big-photo-overlay.js';
 
+import { setFormValidation } from './form-validation.js';
+
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
 const formOverlay = uploadForm.querySelector('.img-upload__overlay');
 const formCancelButton = uploadForm.querySelector('.img-upload__cancel');
+
+const hashTagInput = uploadForm.querySelector('.text__hashtags');
+const commentInput = uploadForm.querySelector('textarea');
 
 const showForm = () =>{
   formOverlay.classList.remove('hidden');
@@ -20,31 +25,44 @@ const hideForm = () => {
 const onFormCancelButtonClick =(evt) => {
   evt.preventDefault();
   hideForm();
+
+  formCancelButton.removeEventListener('click', onFormCancelButtonClick);
 };
+
+// const onFormEscKeydown = (evt) => {
+//   if (isEscEvent(evt)) {
+//     evt.preventDefault();
+//     hideForm();
+
+//     document.removeEventListener('keydown', onFormEscKeydown);
+//   }
+// };
+
 
 const onFormEscKeydown = (evt) => {
-  if (isEscEvent(evt)) {
-    evt.preventDefault();
-    hideForm();
+  if (hashTagInput === document.activeElement || commentInput === document.activeElement) {
+    return evt;
+  } else {
+    if (isEscEvent(evt)){
+      evt.preventDefault();
+      hideForm();
+    }
   }
+  document.removeEventListener('keydown', onFormEscKeydown);
 };
-
-const onUploadButtonClick = () =>{
-  showForm();
-  formCancelButton.addEventListener('click', onFormCancelButtonClick);
-  document.addEventListener('keydown', onFormEscKeydown);
-};
-
 
 // Главная функция
 
 const addNewUserPhoto = () => {
-  uploadFile.addEventListener('change', onUploadButtonClick);
-  // document.removeEventListener('keydown', onFormEscKeydown);
+  uploadFile.addEventListener('change', () => {
+    showForm();
 
-  // formCancelButton.addEventListener('click', onFormCancelButtonClick);
-  // document.addEventListener('keydown', onFormEscKeydown);
+    setFormValidation();
+
+    formCancelButton.addEventListener('click', onFormCancelButtonClick);
+    document.addEventListener('keydown', onFormEscKeydown);
+  });
 };
 
 
-export {addNewUserPhoto};
+export {addNewUserPhoto, uploadForm};
