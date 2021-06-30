@@ -22,32 +22,22 @@ const hideForm = () => {
   uploadForm.reset();
 };
 
+const onFormEscKeydown = (evt) => {
+  if (hashTagInput === document.activeElement || commentInput === document.activeElement) {
+    return evt;
+  }
+  if (isEscEvent(evt)){
+    evt.preventDefault();
+    hideForm();
+    document.removeEventListener('keydown', onFormEscKeydown);
+  }
+};
+
 const onFormCancelButtonClick =(evt) => {
   evt.preventDefault();
   hideForm();
 
   formCancelButton.removeEventListener('click', onFormCancelButtonClick);
-};
-
-// const onFormEscKeydown = (evt) => {
-//   if (isEscEvent(evt)) {
-//     evt.preventDefault();
-//     hideForm();
-
-//     document.removeEventListener('keydown', onFormEscKeydown);
-//   }
-// };
-
-
-const onFormEscKeydown = (evt) => {
-  if (hashTagInput === document.activeElement || commentInput === document.activeElement) {
-    return evt;
-  } else {
-    if (isEscEvent(evt)){
-      evt.preventDefault();
-      hideForm();
-    }
-  }
   document.removeEventListener('keydown', onFormEscKeydown);
 };
 
