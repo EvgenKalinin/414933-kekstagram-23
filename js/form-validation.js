@@ -3,7 +3,7 @@ const HASHTAGS_MAX_QUANTITY = 5;
 const ERROR_COLOR = 'red';
 const DEFAULT_COLOR = 'black';
 
-const validationErrorMessage = {
+const ValidationErrorMessage = {
   REGEX: 'хэш-тег начинается с символа #. состоит из букв и чисел.  Не может состоять только из одной решётки. Максимальная длина одного хэш-тега 20 символов. хэш-теги разделяются пробелами.',
   REPEAT: 'Хэш-теги не должны повторяться',
   HASHTAGS_LENGTH: `Максимум ${HASHTAGS_MAX_QUANTITY} хэш-тегов`,
@@ -26,11 +26,11 @@ const validateHashTagField = (evt) => {
 
   hashTags.forEach((hashTag) => {
     if (hashTagRegEx.test(hashTag) === false) {
-      setErrorCustomValidityOnField(hashTagInput, evt, validationErrorMessage.REGEX);
+      setErrorCustomValidityOnField(hashTagInput, evt, ValidationErrorMessage.REGEX);
     } else if (hashTags.length > noRepeatHashTags.size) {
-      setErrorCustomValidityOnField(hashTagInput, evt, validationErrorMessage.REPEAT);
+      setErrorCustomValidityOnField(hashTagInput, evt, ValidationErrorMessage.REPEAT);
     } else if (hashTags.length > HASHTAGS_MAX_QUANTITY) {
-      setErrorCustomValidityOnField(hashTagInput, evt, validationErrorMessage.HASHTAGS_LENGTH);
+      setErrorCustomValidityOnField(hashTagInput, evt, ValidationErrorMessage.HASHTAGS_LENGTH);
     } else  {
       hashTagInput.setCustomValidity('');
       hashTagInput.style.outlineColor = DEFAULT_COLOR;
@@ -43,7 +43,7 @@ const validateHashTagField = (evt) => {
 
 const validateComment = (evt) => {
   if (commentInput.length > COMMENT_MAX_LENGHT) {
-    setErrorCustomValidityOnField(commentInput, evt, validationErrorMessage.COMMENT_LENGTH);
+    setErrorCustomValidityOnField(commentInput, evt, ValidationErrorMessage.COMMENT_LENGTH);
   } else  {
     commentInput.setCustomValidity('');
     commentInput.style.outlineColor = DEFAULT_COLOR;
