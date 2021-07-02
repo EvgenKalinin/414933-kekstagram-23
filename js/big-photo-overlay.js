@@ -1,6 +1,7 @@
 import {isEscEvent} from './utils.js';
 
 const COMMENT_STEP = 5;
+let commentsToShow = 5;
 
 const picturesList = document.querySelector('.pictures');
 const bigPictureOverlay = document.querySelector('.big-picture');
@@ -77,10 +78,8 @@ const showPreviewOverlay = (userPictures) => {
       // Добаление комментариев
 
       addComments(currentPicture);
-      // TEST
 
-      let commentsToShow = 5;
-
+      // Показывает по 5 комментариев
 
       const commentItems = bigPictureCommentsList.querySelectorAll('.social__comment');
       commentItems.forEach((item) => {
@@ -113,20 +112,6 @@ const showPreviewOverlay = (userPictures) => {
       };
 
       commentsLoader.addEventListener('click', onCommentLoaderClick);
-
-
-      // commentsLoader.addEventListener('click', (evt) => {
-      //   evt.preventDefault;
-      //   commentsToShow += COMMENT_STEP;
-      //   console.log(commentsToShow);
-      //   for (let j = 0; j < commentsToShow && j < commentItems.length; j++) {
-      //     commentItems[j].style.display = 'flex';
-      //   }
-      //   if (commentsToShow >= commentItems.length) {
-      //     console.log(true)
-      //     commentsLoader.classList.add('hidden');
-      //   }
-      // });
 
       // Покахзываем окно
       bigPictureOverlay.classList.remove('hidden');
