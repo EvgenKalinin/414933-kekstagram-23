@@ -16,9 +16,15 @@ const commentsLoader = bigPictureOverlay.querySelector('.social__comments-loader
 const pageBody = document.body;
 const overlayCloseButton = bigPictureOverlay.querySelector('.big-picture__cancel');
 
+const resetCommentLoadCounter = () => {
+  commentsToShow = 5;
+  commentsShown.textContent = commentsToShow;
+};
+
 const closeOverlay = () => {
   bigPictureOverlay.classList.add('hidden');
   pageBody.classList.remove('modal-open');
+  resetCommentLoadCounter();
 };
 
 const onOverlayCloseButtonClick =(evt) => {
@@ -98,17 +104,19 @@ const showPreviewOverlay = (userPictures) => {
       }
 
       const onCommentLoaderClick = (evt) => {
-        evt.preventDefault;
+        evt.preventDefault();
         commentsToShow += COMMENT_STEP;
-        commentsShown.textContent = COMMENT_STEP;
-        for (let j = 0; j < commentsToShow && j < commentItems.length; j++) {
-          commentItems[j].style.display = 'flex';
-          commentsShown.textContent = j+1;
+
+        // commentsShown.textContent = COMMENT_STEP;
+        for (let k = 0; k < commentsToShow && k < commentItems.length; k++) {
+          commentItems[k].style.display = 'flex';
+          commentsShown.textContent = k+1;
         }
         if (commentsToShow >= commentItems.length) {
           commentsLoader.classList.add('hidden');
           commentsLoader.removeEventListener('click', onCommentLoaderClick);
         }
+        console.log(commentsToShow);
       };
 
       commentsLoader.addEventListener('click', onCommentLoaderClick);
