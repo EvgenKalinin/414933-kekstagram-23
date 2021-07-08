@@ -1,7 +1,9 @@
 import {isEscEvent} from './utils.js';
 
 const COMMENT_STEP = 5;
-let commentsToShow = 5;
+let commentsToShow = 0;
+let loadMoreComments = null;
+let closeOverlay = null;
 
 const picturesList = document.querySelector('.pictures');
 const bigPictureOverlay = document.querySelector('.big-picture');
@@ -16,50 +18,60 @@ const commentsLoader = bigPictureOverlay.querySelector('.social__comments-loader
 const pageBody = document.body;
 const overlayCloseButton = bigPictureOverlay.querySelector('.big-picture__cancel');
 
-const resetCommentLoadCounter = () => {
-  commentsToShow = 5;
-  commentsShown.textContent = commentsToShow;
-};
 
-const closeOverlay = () => {
-  bigPictureOverlay.classList.add('hidden');
-  pageBody.classList.remove('modal-open');
-  resetCommentLoadCounter();
-};
-
-const onOverlayCloseButtonClick =(evt) => {
+const onCommentLoaderClick = (evt) => {
   evt.preventDefault();
-  closeOverlay();
 
-  overlayCloseButton.removeEventListener('click', onOverlayCloseButtonClick);
+  if (typeof loadMoreComments === 'function') {
+    loadMoreComments();
+  }
+};
+
+const onOverlayCloseButtonClick = (evt) => {
+  evt.preventDefault();
+
+  if (typeof loadMoreComments === 'function') {
+    closeOverlay();
+  }
 };
 
 const onOverlayEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    closeOverlay();
-
-    document.removeEventListener('keydown', onOverlayEscKeydown);
+    if (typeof loadMoreComments === 'function') {
+      closeOverlay();
+    }
   }
 };
 
-const addComments = (pictureItem) => {
-  const pictureComments = pictureItem.comments;
-  const commentFragment = document.createDocumentFragment();
-  pictureComments.forEach((comment) => {
-    const newComment = document.createElement('li');
-    newComment.classList.add('social__comment');
-    newComment.innerHTML = '<img class="social__picture" src="" alt="" width="35" height="35"> <p class="social__text"></p>';
-    const newCommentImg = newComment.children[0];
-    const newCommentP = newComment.children[1];
-    newCommentImg.src = comment.avatar;
-    newCommentImg.alt = comment.name;
-    newCommentP.textContent = comment.comment;
+closeOverlay = () => {
+  bigPictureOverlay.classList.add('hidden');
+  pageBody.classList.remove('modal-open');
 
-    commentFragment.appendChild(newComment);
+  overlayCloseButton.removeEventListener('click', onOverlayCloseButtonClick);
+  commentsLoader.removeEventListener('click', onCommentLoaderClick);
+  document.removeEventListener('keydown', onOverlayEscKeydown);
+};
+
+
+const commentTemplate = bigPictureOverlay.querySelector('.social__comment').cloneNode(true);
+
+const renderPictureComments = (comments) => {
+  const fragment = document.createDocumentFragment();
+
+  comments.forEach((comment) => {
+    const newComment = commentTemplate.cloneNode(true);
+    const picture = newComment.querySelector('.social__picture');
+    const text = newComment.querySelector('.social__text');
+
+    picture.src = comment.avatar;
+    picture.alt = comment.name;
+    text.textContent = comment.comment;
+
+    fragment.appendChild(newComment);
   });
 
-  bigPictureCommentsList.appendChild(commentFragment);
+  return fragment;
 };
 
 /**
@@ -73,62 +85,65 @@ const showPreviewOverlay = (userPictures) => {
     picture.addEventListener('click', () => {
       const currentPicture = userPictures[i];
 
-      // Скрываем лишнее
-      commentsCount.classList.add('hidden');
-      commentsLoader.classList.add('hidden');
-
       bigPictureImage.src = currentPicture.url;
       bigPictureLikes.textContent = currentPicture.likes;
       bigPictureCaption.textContent = currentPicture.description;
       bigPictureCommentsList.innerHTML = '';
+
       // Добаление комментариев
 
-      addComments(currentPicture);
+      const comments = currentPicture.comments;
 
-      // Показывает по 5 комментариев
+      if (comments.length > 0) {
+        const showedComments = comments.slice(0, COMMENT_STEP);
 
-      const commentItems = bigPictureCommentsList.querySelectorAll('.social__comment');
-      commentItems.forEach((item) => {
-        item.style.display = 'none';
-      });
+        commentsShown.textContent = showedComments.length;
+        commentsQuantity.textContent = comments.length;
 
-      for (let j = 0; j < commentsToShow; j++) {
-        commentItems[j].style.display = 'flex';
-      }
+        commentsToShow = showedComments.length;
 
-
-      if (commentItems.length > commentsToShow) {
+        bigPictureCommentsList.classList.remove('hidden');
         commentsCount.classList.remove('hidden');
-        commentsQuantity.textContent = commentItems.length;
-        commentsLoader.classList.remove('hidden');
+        commentsLoader.classList.add('hidden');
+
+        const pictureFragment = renderPictureComments(showedComments);
+        bigPictureCommentsList.appendChild(pictureFragment);
+
+        if (comments.length >= COMMENT_STEP) {
+          commentsLoader.classList.remove('hidden');
+          commentsLoader.addEventListener('click', onCommentLoaderClick);
+        }
+      } else {
+        bigPictureCommentsList.classList.add('hidden');
+        commentsCount.classList.add('hidden');
+        commentsLoader.classList.add('hidden');
       }
 
-      const onCommentLoaderClick = (evt) => {
-        evt.preventDefault();
-        commentsToShow += COMMENT_STEP;
+      loadMoreComments = () => {
+        const showedCount = commentsToShow + COMMENT_STEP > comments.length
+          ? comments.length
+          : commentsToShow + COMMENT_STEP;
 
-        // commentsShown.textContent = COMMENT_STEP;
-        for (let k = 0; k < commentsToShow && k < commentItems.length; k++) {
-          commentItems[k].style.display = 'flex';
-          commentsShown.textContent = k+1;
-        }
-        if (commentsToShow >= commentItems.length) {
+        const nextShowedComments = comments.slice(commentsToShow, showedCount);
+
+        commentsToShow = showedCount;
+        commentsShown.textContent = showedCount;
+
+        const pictureFragment = renderPictureComments(nextShowedComments);
+        bigPictureCommentsList.appendChild(pictureFragment);
+
+        if (showedCount >= comments.length) {
           commentsLoader.classList.add('hidden');
           commentsLoader.removeEventListener('click', onCommentLoaderClick);
         }
-        console.log(commentsToShow);
       };
-
-      commentsLoader.addEventListener('click', onCommentLoaderClick);
 
       // Покахзываем окно
       bigPictureOverlay.classList.remove('hidden');
-
       // Вешаем класс на body
       pageBody.classList.add('modal-open');
 
       // Реализыция закрытия окна
-
       overlayCloseButton.addEventListener('click', onOverlayCloseButtonClick);
 
       document.addEventListener('keydown', onOverlayEscKeydown);
