@@ -1,6 +1,6 @@
 import {isEscEvent} from './utils.js';
 // import {pageBody} from './big-photo-overlay.js';
-
+import { setScale, changeImageScale, currentScaleValue } from './scale.js';
 import { setFormValidation } from './form-validation.js';
 
 const pageBody = document.body;
@@ -47,6 +47,9 @@ const onFormCancelButtonClick =(evt) => {
 const addNewUserPhoto = () => {
   uploadFile.addEventListener('change', () => {
     showForm();
+
+    setScale(currentScaleValue);
+    changeImageScale();
 
     setFormValidation();
 
