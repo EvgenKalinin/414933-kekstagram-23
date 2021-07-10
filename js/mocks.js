@@ -50,7 +50,7 @@ const PHOTOS_QUANTITY = 25;
  */
 const createComments = () => {
   const commentIdNumbers = getRandonIntArray(1, 25);
-  const commentQuantity = getRandomInt(0, 2);
+  const commentQuantity = getRandomInt(10, 25);
   const comments = new Array(commentQuantity).fill(null);
   for (let j = 0; j <= commentQuantity; j++) {
     comments[j] = {

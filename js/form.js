@@ -1,8 +1,9 @@
 import {isEscEvent} from './utils.js';
-import {pageBody} from './big-photo-overlay.js';
+// import {pageBody} from './big-photo-overlay.js';
 
 import { setFormValidation } from './form-validation.js';
 
+const pageBody = document.body;
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
 const formOverlay = uploadForm.querySelector('.img-upload__overlay');

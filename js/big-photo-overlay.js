@@ -1,86 +1,113 @@
-import {isEscEvent} from './utils.js';
+const COMMENT_STEP = 5;
 
-const picturesList = document.querySelector('.pictures');
+let commentsToShow = 0;
+let loadMoreComments = null;
+
+
 const bigPictureOverlay = document.querySelector('.big-picture');
 const bigPictureImage = bigPictureOverlay.querySelector('.big-picture__img img');
 const bigPictureLikes = bigPictureOverlay.querySelector('.likes-count');
 const bigPictureCaption = bigPictureOverlay.querySelector('.social__caption');
 const bigPictureCommentsList = bigPictureOverlay.querySelector('.social__comments');
 const commentsCount = bigPictureOverlay.querySelector('.social__comment-count');
+const commentsShown = bigPictureOverlay.querySelector('.comments-shown');
+const commentsQuantity = bigPictureOverlay.querySelector('.comments-count');
 const commentsLoader = bigPictureOverlay.querySelector('.social__comments-loader');
-const pageBody = document.body;
-const overlayCloseButton = bigPictureOverlay.querySelector('.big-picture__cancel');
 
-const closeOverlay = () => {
-  bigPictureOverlay.classList.add('hidden');
-  pageBody.classList.remove('modal-open');
+const commentTemplate = bigPictureOverlay.querySelector('.social__comment').cloneNode(true);
+
+const renderPictureComments = (comments) => {
+  const fragment = document.createDocumentFragment();
+
+  comments.forEach((comment) => {
+    const newComment = commentTemplate.cloneNode(true);
+    const picture = newComment.querySelector('.social__picture');
+    const text = newComment.querySelector('.social__text');
+
+    picture.src = comment.avatar;
+    picture.alt = comment.name;
+    text.textContent = comment.comment;
+
+    fragment.appendChild(newComment);
+  });
+
+  return fragment;
 };
 
-const onOverlayCloseButtonClick =(evt) => {
+const onCommentLoaderClick = (evt) => {
   evt.preventDefault();
-  closeOverlay();
 
-  overlayCloseButton.removeEventListener('click', onOverlayCloseButtonClick);
-};
-
-const onOverlayEscKeydown = (evt) => {
-  if (isEscEvent(evt)) {
-    evt.preventDefault();
-    closeOverlay();
-
-    document.removeEventListener('keydown', onOverlayEscKeydown);
+  if (typeof loadMoreComments === 'function') {
+    loadMoreComments();
   }
 };
 
-/**
- * Открывает большое изображение миниатюры фотографии
- * @param {*} userPictures Принимает массив с фотографиями пользователей
- */
-const showPreviewOverlay = (userPictures) => {
-  const pictures = picturesList.querySelectorAll('.picture');
+const hidePreviewOverlay = () => {
+  loadMoreComments = null;
 
-  pictures.forEach((picture, i) => {
-    picture.addEventListener('click', () => {
-      const currentPicture = userPictures[i];
-
-      // Скрываем лишнее
-      commentsCount.classList.add('hidden');
-      commentsLoader.classList.add('hidden');
-      bigPictureImage.src = currentPicture.url;
-      bigPictureLikes.textContent = currentPicture.likes;
-      bigPictureCaption.textContent = currentPicture.description;
-      bigPictureCommentsList.innerHTML = '';
-      // Добаление комментариев
-      const pictureComments = currentPicture.comments;
-      const commentFragment = document.createDocumentFragment();
-      pictureComments.forEach((comment) => {
-        const newComment = document.createElement('li');
-        newComment.classList.add('social__comment');
-        newComment.innerHTML = '<img class="social__picture" src="" alt="" width="35" height="35"> <p class="social__text"></p>';
-        const newCommentImg = newComment.children[0];
-        const newCommentP = newComment.children[1];
-        newCommentImg.src = comment.avatar;
-        newCommentImg.alt = comment.name;
-        newCommentP.textContent = comment.comment;
-
-        commentFragment.appendChild(newComment);
-      });
-
-      bigPictureCommentsList.appendChild(commentFragment);
-
-      // Покахзываем окно
-      bigPictureOverlay.classList.remove('hidden');
-
-      // Вешаем класс на body
-      pageBody.classList.add('modal-open');
-
-      // Реализыция закрытия окна
-
-      overlayCloseButton.addEventListener('click', onOverlayCloseButtonClick);
-
-      document.addEventListener('keydown', onOverlayEscKeydown);
-    });
-  });
+  document.body.classList.remove('modal-open');
+  bigPictureOverlay.classList.add('hidden');
+  commentsLoader.removeEventListener('click', onCommentLoaderClick);
 };
 
-export {showPreviewOverlay, pageBody};
+const showPreviewOverlay = (photo) => {
+  const { url, likes, description } = photo;
+
+  bigPictureImage.src = url;
+  bigPictureLikes.textContent = likes;
+  bigPictureCaption.textContent = description;
+  bigPictureCommentsList.innerHTML = '';
+
+  const comments = photo.comments;
+
+  if (comments.length > 0) {
+    const showedComments = comments.slice(0, COMMENT_STEP);
+
+    commentsShown.textContent = showedComments.length;
+    commentsQuantity.textContent = comments.length;
+
+    commentsToShow = showedComments.length;
+
+    bigPictureCommentsList.classList.remove('hidden');
+    commentsCount.classList.remove('hidden');
+    commentsLoader.classList.add('hidden');
+
+    const pictureFragment = renderPictureComments(showedComments);
+    bigPictureCommentsList.appendChild(pictureFragment);
+
+    if (comments.length >= COMMENT_STEP) {
+      commentsLoader.classList.remove('hidden');
+      commentsLoader.addEventListener('click', onCommentLoaderClick);
+    }
+  } else {
+    bigPictureCommentsList.classList.add('hidden');
+    commentsCount.classList.add('hidden');
+    commentsLoader.classList.add('hidden');
+  }
+
+  loadMoreComments = () => {
+    const showedCount = commentsToShow + COMMENT_STEP > comments.length
+      ? comments.length
+      : commentsToShow + COMMENT_STEP;
+
+    const nextShowedComments = comments.slice(commentsToShow, showedCount);
+
+    commentsToShow = showedCount;
+    commentsShown.textContent = showedCount;
+
+    const pictureFragment = renderPictureComments(nextShowedComments);
+    bigPictureCommentsList.appendChild(pictureFragment);
+
+    if (showedCount >= comments.length) {
+      commentsLoader.classList.add('hidden');
+      commentsLoader.removeEventListener('click', onCommentLoaderClick);
+    }
+  };
+
+  bigPictureOverlay.classList.remove('hidden');
+};
+
+export {
+  showPreviewOverlay,
+  hidePreviewOverlay
+};
