@@ -1,6 +1,6 @@
-import { onEffectChange, hideSlider } from './effects.js';
+import { onEffectListChange, hideSlider } from './effects.js';
 import {isEscEvent} from './utils.js';
-import { setScale, changeImageScale, currentScaleValue } from './scale.js';
+import { setScale, changeImageScale, MAX_SCALE_VALUE } from './scale.js';
 import { setFormValidation } from './form-validation.js';
 
 const effectsList = document.querySelector('.effects__list');
@@ -38,6 +38,7 @@ const onFormCancelButtonClick =(evt) => {
   evt.preventDefault();
   hideForm();
 
+
   formCancelButton.removeEventListener('click', onFormCancelButtonClick);
   document.removeEventListener('keydown', onFormEscKeydown);
 };
@@ -47,10 +48,10 @@ const onFormCancelButtonClick =(evt) => {
 const addNewUserPhoto = () => {
   uploadFile.addEventListener('change', () => {
     showForm();
-    setScale(currentScaleValue);
+    setScale(MAX_SCALE_VALUE);
     changeImageScale();
     hideSlider();
-    effectsList.addEventListener('change', onEffectChange);
+    effectsList.addEventListener('change', onEffectListChange);
     setFormValidation();
     formCancelButton.addEventListener('click', onFormCancelButtonClick);
     document.addEventListener('keydown', onFormEscKeydown);

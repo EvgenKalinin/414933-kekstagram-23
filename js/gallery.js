@@ -6,13 +6,6 @@ const userPhotosList = document.querySelector('.pictures');
 const overlayCloseButton = document.querySelector('.big-picture__cancel');
 
 
-const onOverlayCloseButtonClick = (evt) => {
-  evt.preventDefault();
-
-  hidePreviewOverlay();
-  overlayCloseButton.removeEventListener('click',  onOverlayCloseButtonClick);
-};
-
 const onOverlayEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
@@ -20,6 +13,14 @@ const onOverlayEscKeydown = (evt) => {
     hidePreviewOverlay();
     document.removeEventListener('keydown', onOverlayEscKeydown);
   }
+};
+
+const onOverlayCloseButtonClick = (evt) => {
+  evt.preventDefault();
+
+  hidePreviewOverlay();
+  overlayCloseButton.removeEventListener('click',  onOverlayCloseButtonClick);
+  document.removeEventListener('keydown', onOverlayEscKeydown);
 };
 
 const onMiniatureClick = (photo) => {

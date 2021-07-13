@@ -15,7 +15,7 @@ const setScale = (currentValue) => {
   imgPreview.style.transform = `scale(${currentValue * 0.01})`;
 };
 
-const onBiggerButtonClick = (evt) => {
+const onControlBiggerClick = (evt) => {
   evt.preventDefault();
 
   if (currentScaleValue < MAX_SCALE_VALUE) {
@@ -24,7 +24,7 @@ const onBiggerButtonClick = (evt) => {
   }
 };
 
-const onSmallerButtonClick = (evt) => {
+const onControlSmallerClick = (evt) => {
   evt.preventDefault();
 
   if (currentScaleValue > MIN_SCALE_VALUE) {
@@ -34,8 +34,8 @@ const onSmallerButtonClick = (evt) => {
 };
 
 const changeImageScale = () => {
-  controlBigger.addEventListener('click', onBiggerButtonClick);
-  controlSmaller.addEventListener('click', onSmallerButtonClick);
+  controlBigger.addEventListener('click', onControlBiggerClick);
+  controlSmaller.addEventListener('click', onControlSmallerClick);
 };
 
-export {setScale, changeImageScale, currentScaleValue, imgPreview, imgPreviewContainer};
+export {setScale, changeImageScale, MAX_SCALE_VALUE, currentScaleValue, imgPreview, imgPreviewContainer};

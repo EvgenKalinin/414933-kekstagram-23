@@ -2,6 +2,7 @@ import { imgPreview } from './scale.js';
 
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectSliderValue = document.querySelector('.effect-level__value');
+const sliderContainer = document.querySelector('.effect-level');
 
 
 const effects = [
@@ -62,8 +63,9 @@ noUiSlider.create(effectSlider, {
 
 
 const setEffect = (effect) => {
-  effectSlider.classList.remove('hidden');
-  imgPreview.className = '';
+  sliderContainer.classList.remove('hidden');
+  // imgPreview.className = '';
+  imgPreview.classList.remove(...[...imgPreview.classList].filter((n) => n.indexOf('effects__preview--') !== -1));
   imgPreview.classList.add(`effects__preview--${effect.style}`);
 
   effectSlider.noUiSlider.updateOptions({
@@ -82,12 +84,13 @@ const setEffect = (effect) => {
 };
 
 const hideSlider = () => {
-  effectSlider.classList.add('hidden');
+  sliderContainer.classList.add('hidden');
+
   imgPreview.className = '';
   imgPreview.style.filter = '';
 };
 
-const onEffectChange = (evt) => {
+const onEffectListChange = (evt) => {
   const currentEffect = effects.find((effect) => effect.name === evt.target.value);
 
   if (currentEffect.name === 'none') {
@@ -99,4 +102,4 @@ const onEffectChange = (evt) => {
 };
 
 
-export {onEffectChange, hideSlider};
+export {onEffectListChange, hideSlider};
