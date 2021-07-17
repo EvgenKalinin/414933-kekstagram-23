@@ -61,7 +61,6 @@ noUiSlider.create(effectSlider, {
   connect: 'lower',
 });
 
-
 const setEffect = (effect) => {
   sliderContainer.classList.remove('hidden');
   // imgPreview.className = '';
