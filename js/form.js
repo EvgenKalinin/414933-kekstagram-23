@@ -1,14 +1,14 @@
+import { onEffectListChange, hideSlider } from './effects.js';
 import {isEscEvent} from './utils.js';
-// import {pageBody} from './big-photo-overlay.js';
-
+import { setScale, changeImageScale, MAX_SCALE_VALUE } from './scale.js';
 import { setFormValidation } from './form-validation.js';
 
+const effectsList = document.querySelector('.effects__list');
 const pageBody = document.body;
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
 const formOverlay = uploadForm.querySelector('.img-upload__overlay');
 const formCancelButton = uploadForm.querySelector('.img-upload__cancel');
-
 const hashTagInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('textarea');
 
@@ -38,6 +38,7 @@ const onFormCancelButtonClick =(evt) => {
   evt.preventDefault();
   hideForm();
 
+
   formCancelButton.removeEventListener('click', onFormCancelButtonClick);
   document.removeEventListener('keydown', onFormEscKeydown);
 };
@@ -47,9 +48,11 @@ const onFormCancelButtonClick =(evt) => {
 const addNewUserPhoto = () => {
   uploadFile.addEventListener('change', () => {
     showForm();
-
+    setScale(MAX_SCALE_VALUE);
+    changeImageScale();
+    hideSlider();
+    effectsList.addEventListener('change', onEffectListChange);
     setFormValidation();
-
     formCancelButton.addEventListener('click', onFormCancelButtonClick);
     document.addEventListener('keydown', onFormEscKeydown);
   });
