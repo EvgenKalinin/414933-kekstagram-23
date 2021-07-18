@@ -5,7 +5,7 @@ import { setFormValidation } from './form-validation.js';
 
 import { sendData } from './api.js';
 
-const effectsList = document.querySelector('.effects__list');
+const effectList = document.querySelector('.effects__list');
 const pageBody = document.body;
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
@@ -121,7 +121,7 @@ const addNewUserPhoto = () => {
     setScale(MAX_SCALE_VALUE);
     changeImageScale();
     hideSlider();
-    effectsList.addEventListener('change', onEffectListChange);
+    effectList.addEventListener('change', onEffectListChange);
     setFormValidation();
     formCancelButton.addEventListener('click', onFormCancelButtonClick);
     document.addEventListener('keydown', onFormEscKeydown);

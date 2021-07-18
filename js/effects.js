@@ -5,7 +5,7 @@ const effectSliderValue = document.querySelector('.effect-level__value');
 const sliderContainer = document.querySelector('.effect-level');
 
 
-const effects = [
+const EFFECTS = [
   {
     name: 'none',
   },
@@ -63,8 +63,7 @@ noUiSlider.create(effectSlider, {
 
 const setEffect = (effect) => {
   sliderContainer.classList.remove('hidden');
-  // imgPreview.className = '';
-  imgPreview.classList.remove(...[...imgPreview.classList].filter((n) => n.indexOf('effects__preview--') !== -1));
+  imgPreview.classList.remove(...[...imgPreview.classList].filter((i) => i.indexOf('effects__preview--') !== -1));
   imgPreview.classList.add(`effects__preview--${effect.style}`);
 
   effectSlider.noUiSlider.updateOptions({
@@ -90,7 +89,7 @@ const hideSlider = () => {
 };
 
 const onEffectListChange = (evt) => {
-  const currentEffect = effects.find((effect) => effect.name === evt.target.value);
+  const currentEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
 
   if (currentEffect.name === 'none') {
     hideSlider();

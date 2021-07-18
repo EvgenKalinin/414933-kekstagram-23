@@ -31,7 +31,6 @@ const onMiniatureClick = (photo) => {
 };
 
 const addPhotos = (photos) => {
-  // userPhotosList.append(...photos.map(createMiniature));
   const fragment = document.createDocumentFragment();
   photos.forEach((photo) => {
     fragment.appendChild(createMiniature(photo, onMiniatureClick));

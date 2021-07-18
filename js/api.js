@@ -6,7 +6,6 @@ const getData = (onSucces, onError) => {
     .then((response) => {
       if (response.ok) {
         return response;
-        //Try to delite else
       } else {
         onError();
       }
