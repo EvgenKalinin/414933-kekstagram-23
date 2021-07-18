@@ -1,9 +1,12 @@
 import {addPhotos} from './gallery.js';
 import {addNewUserPhoto} from './form.js';
+// import {createPostedPhotos} from './mocks.js';
 
-import {createPostedPhotos} from './mocks.js';
+import { getData } from './api.js';
+import {showAlert} from './utils.js';
 
-const userPhotos = createPostedPhotos();
+
+// const userPhotos = createPostedPhotos();
 
 /*
 setSorterBar((sortName) => {
@@ -12,4 +15,12 @@ setSorterBar((sortName) => {
 **/
 
 addNewUserPhoto();
-addPhotos(userPhotos);
+// addPhotos(userPhotos);
+
+getData((data) => {
+  addPhotos(data);
+},
+() => showAlert('Упс! Что то пошло не так...'),
+);
+
+

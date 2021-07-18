@@ -26,7 +26,7 @@ const renderPictureComments = (comments) => {
 
     picture.src = comment.avatar;
     picture.alt = comment.name;
-    text.textContent = comment.comment;
+    text.textContent = comment.message;
 
     fragment.appendChild(newComment);
   });
