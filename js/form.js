@@ -115,12 +115,15 @@ const onErrorMessageEscKeydown = (evt) => {
   }
 };
 
-const onErrorMessageOutClick = (evt) => {
-  if (!errorMessageTemplate.contains(evt.target)) {
+const onErrorMessageOutClick  = (evt) => {
+  const target = evt.target;
+  if (
+    !target.classList.contains('error__title') &&
+    !target.classList.contains('error__inner')
+  ) {
     evt.preventDefault();
-
     // eslint-disable-next-line no-use-before-define
-    closeErrorMessage();
+    closeSuccessMessage();
   }
 };
 

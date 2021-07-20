@@ -19,24 +19,25 @@ const setCustomValidityOnField = (field, evt, message) => {
 };
 
 const validateHashTagField = (evt) => {
-  const hashTags = hashTagInput.value.toLowerCase().split(' ');
-  const noRepeatHashTags = new Set(hashTags);
+  if (hashTagInput.value !== '') {
+    const hashTags = hashTagInput.value.toLowerCase().split(' ');
+    const noRepeatHashTags = new Set(hashTags);
 
-  hashTags.forEach((hashTag) => {
-    if (hashTagRegEx.test(hashTag) === false) {
-      setCustomValidityOnField(hashTagInput, evt, REGEX_VALIDATION_ERROR_MESSAGE);
-    } else if (hashTags.length > noRepeatHashTags.size) {
-      setCustomValidityOnField(hashTagInput, evt, REPEAT_VALIDATION_ERROR_MESSAGE);
-    } else if (hashTags.length > HASHTAGS_MAX_QUANTITY) {
-      setCustomValidityOnField(hashTagInput, evt, HASHTAGS_LENGTH_VALIDATION_ERROR_MESSAGE);
-    } else  {
-      hashTagInput.setCustomValidity('');
-      hashTagInput.style.outlineColor = DEFAULT_COLOR;
-    }
+    hashTags.forEach((hashTag) => {
+      if (hashTagRegEx.test(hashTag) === false) {
+        setCustomValidityOnField(hashTagInput, evt, REGEX_VALIDATION_ERROR_MESSAGE);
+      } else if (hashTags.length > noRepeatHashTags.size) {
+        setCustomValidityOnField(hashTagInput, evt, REPEAT_VALIDATION_ERROR_MESSAGE);
+      } else if (hashTags.length > HASHTAGS_MAX_QUANTITY) {
+        setCustomValidityOnField(hashTagInput, evt, HASHTAGS_LENGTH_VALIDATION_ERROR_MESSAGE);
+      } else  {
+        hashTagInput.setCustomValidity('');
+        hashTagInput.style.outlineColor = DEFAULT_COLOR;
+      }
 
-    hashTagInput.reportValidity();
-  });
-
+      hashTagInput.reportValidity();
+    });
+  }
 };
 
 const validateComment = (evt) => {
