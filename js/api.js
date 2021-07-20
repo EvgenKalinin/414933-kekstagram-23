@@ -1,8 +1,14 @@
-const GET_DATA_URL = 'https://23.javascript.pages.academy/kekstagram/data';
-const SEND_DATA_URL = 'https://23.javascript.pages.academy/kekstagram';
+const RequestUrl = {
+  GET: 'https://23.javascript.pages.academy/kekstagram/data',
+  POST: 'https://23.javascript.pages.academy/kekstagram',
+};
+
+const HttpMethod = {
+  POST: 'POST',
+};
 
 const getData = (onSucces, onError) => {
-  fetch(GET_DATA_URL)
+  fetch(RequestUrl.GET)
     .then((response) => {
       if (response.ok) {
         return response;
@@ -11,20 +17,15 @@ const getData = (onSucces, onError) => {
       }
     })
     .then((response) => response.json())
-    .then((data) => {
-      onSucces(data);
-    })
-    .catch(() => {
-      onError();
-    });
+    .then(onSucces)
+    .catch(onError);
 };
-
 
 const sendData = (onSuccess, onError, body) => {
   fetch(
-    SEND_DATA_URL,
+    RequestUrl.POST,
     {
-      method: 'POST',
+      method: HttpMethod.POST,
       body,
     },
   )
@@ -35,9 +36,7 @@ const sendData = (onSuccess, onError, body) => {
         onError();
       }
     })
-    .catch(() => {
-      onError();
-    });
+    .catch(onError);
 };
 
 export {getData, sendData};

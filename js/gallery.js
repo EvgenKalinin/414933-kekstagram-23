@@ -1,4 +1,4 @@
-import { isEscEvent } from './utils.js';
+import { isEscEvent, removeElement } from './utils.js';
 import { createMiniature } from './miniature.js';
 import { showPreviewOverlay, hidePreviewOverlay } from './big-photo-overlay.js';
 
@@ -39,4 +39,8 @@ const addPhotos = (photos) => {
   userPhotosList.append(fragment);
 };
 
-export {addPhotos};
+const removePhotos = () => {
+  userPhotosList.querySelectorAll('.picture').forEach(removeElement);
+};
+
+export {addPhotos, removePhotos};

@@ -1,6 +1,6 @@
 const SCALE_STEP = 25;
 const MIN_SCALE_VALUE = 25;
-const MAX_SCALE_VALUE =100;
+const MAX_SCALE_VALUE = 100;
 let currentScaleValue = MAX_SCALE_VALUE;
 
 const controlBigger = document.querySelector('.scale__control--bigger');

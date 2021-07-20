@@ -4,10 +4,11 @@ const effectSlider = document.querySelector('.effect-level__slider');
 const effectSliderValue = document.querySelector('.effect-level__value');
 const sliderContainer = document.querySelector('.effect-level');
 
-
 const EFFECTS = [
   {
     name: 'none',
+    style: '',
+    unit: '',
   },
   {
     name: 'chrome',
@@ -61,23 +62,26 @@ noUiSlider.create(effectSlider, {
   connect: 'lower',
 });
 
-const setEffect = (effect) => {
+let currentEffect = EFFECTS[0];
+
+effectSlider.noUiSlider.on('update', (values, handle) => {
+  effectSliderValue.value = values[handle];
+  imgPreview.style.filter = `${currentEffect.style}(${effectSliderValue.value}${currentEffect.unit})`;
+});
+
+const setEffect = () => {
   sliderContainer.classList.remove('hidden');
-  imgPreview.classList.remove(...[...imgPreview.classList].filter((className) => className.indexOf('effects__preview--') !== -1));
-  imgPreview.classList.add(`effects__preview--${effect.style}`);
+
+  imgPreview.className = '';
+  imgPreview.classList.add(`effects__preview--${currentEffect.style}`);
 
   effectSlider.noUiSlider.updateOptions({
     range: {
-      min: effect.minValue,
-      max: effect.maxValue,
+      min: currentEffect.minValue,
+      max: currentEffect.maxValue,
     },
-    start: effect.maxValue,
-    step: effect.step,
-  });
-
-  effectSlider.noUiSlider.on('update', (values, handle) => {
-    effectSliderValue.value = values[handle];
-    imgPreview.style.filter = `${effect.style}(${effectSliderValue.value}${effect.unit})`;
+    start: currentEffect.maxValue,
+    step: currentEffect.step,
   });
 };
 
@@ -89,14 +93,13 @@ const hideSlider = () => {
 };
 
 const onEffectListChange = (evt) => {
-  const currentEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
+  currentEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
 
-  if (currentEffect.name === 'none') {
+  if (currentEffect === 'none') {
     hideSlider();
   } else {
-    setEffect(currentEffect);
+    setEffect();
   }
-
 };
 
 

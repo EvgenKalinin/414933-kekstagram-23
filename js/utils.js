@@ -12,6 +12,8 @@ const ALERT_SHOW_TIME = 5000;
  */
 const isEscEvent = (evt) => KEYBOARD_KEYS.includes(evt.key);
 
+const removeElement = (element) => element.remove();
+
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   const style = alertContainer.style;
@@ -36,4 +38,4 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {isEscEvent, showAlert};
+export {isEscEvent, showAlert, removeElement};
