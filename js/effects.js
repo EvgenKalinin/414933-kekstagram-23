@@ -63,7 +63,7 @@ noUiSlider.create(effectSlider, {
 
 const setEffect = (effect) => {
   sliderContainer.classList.remove('hidden');
-  imgPreview.classList.remove(...[...imgPreview.classList].filter((i) => i.indexOf('effects__preview--') !== -1));
+  imgPreview.classList.remove(...[...imgPreview.classList].filter((className) => className.indexOf('effects__preview--') !== -1));
   imgPreview.classList.add(`effects__preview--${effect.style}`);
 
   effectSlider.noUiSlider.updateOptions({

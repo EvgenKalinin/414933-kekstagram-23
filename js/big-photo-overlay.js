@@ -47,7 +47,6 @@ const hidePreviewOverlay = () => {
 
   document.body.classList.remove('modal-open');
   bigPictureOverlay.classList.add('hidden');
-  commentsLoader.removeEventListener('click', onCommentLoaderClick);
 };
 
 const showPreviewOverlay = (photo) => {

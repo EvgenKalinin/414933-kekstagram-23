@@ -18,6 +18,10 @@ const successMessageTemplate = document.querySelector('#success')
   .content
   .querySelector('.success');
 
+const errorMessageTemplate = document.querySelector('#error')
+  .content
+  .querySelector('.error');
+
 const showForm = () =>{
   formOverlay.classList.remove('hidden');
   pageBody.classList.add('modal-open');
@@ -48,10 +52,33 @@ const onFormCancelButtonClick =(evt) => {
   document.removeEventListener('keydown', onFormEscKeydown);
 };
 
+const onSuccessMessageEscKeydown = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+
+    // eslint-disable-next-line no-use-before-define
+    closeSuccessMessage();
+  }
+};
+
+const onSuccessMessageOutClick = (evt) => {
+  if (!successMessageTemplate.contains(evt.target)) {
+    evt.preventDefault();
+
+    // eslint-disable-next-line no-use-before-define
+    closeSuccessMessage();
+  }
+};
+
+const onSuccessMessageButtonClick = (evt) => {
+  evt.preventDefault();
+  // eslint-disable-next-line no-use-before-define
+  closeSuccessMessage();
+};
 
 const closeSuccessMessage = () => {
   const successMessage = document.querySelector('.success');
-  const successMessageButton = document.querySelector('.success__button');
+  const successMessageButton = successMessage.querySelector('.success__button');
 
   if (successMessage) {
     successMessage.remove();
@@ -64,29 +91,6 @@ const closeSuccessMessage = () => {
   }
 };
 
-const onSuccessMessageEscKeydown = (evt) => {
-  if (isEscEvent(evt)) {
-    evt.preventDefault();
-
-    closeSuccessMessage();
-  }
-};
-
-const isOutClick = (evt, name) => evt.target.className !== name;
-
-const onSuccessMessageOutClick = (evt) => {
-  if (isOutClick (evt, 'success__inner')) {
-    evt.preventDefault();
-
-    closeSuccessMessage();
-  }
-};
-
-const onSuccessMessageButtonClick = (evt) => {
-  evt.preventDefault();
-  closeSuccessMessage();
-};
-
 const showSuccessMessage = () => {
   const fragment = document.createDocumentFragment();
   const successMessage = successMessageTemplate.cloneNode(true);
@@ -95,7 +99,7 @@ const showSuccessMessage = () => {
 
   document.addEventListener('keydown', onSuccessMessageEscKeydown);
   document.body.addEventListener('click', onSuccessMessageOutClick);
-  document.querySelector('.success__button').addEventListener('click', onSuccessMessageButtonClick);
+  successMessage.querySelector('.success__button').addEventListener('click', onSuccessMessageButtonClick);
 };
 
 const onSuccesFormSubmit = () => {
@@ -103,12 +107,68 @@ const onSuccesFormSubmit = () => {
   hideForm();
 };
 
-const onFormSubmit = (evt) => {
+const onErrorMessageEscKeydown = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+
+    // eslint-disable-next-line no-use-before-define
+    closeErrorMessage();
+  }
+};
+
+const onErrorMessageOutClick = (evt) => {
+  if (!errorMessageTemplate.contains(evt.target)) {
+    evt.preventDefault();
+
+    // eslint-disable-next-line no-use-before-define
+    closeErrorMessage();
+  }
+};
+
+const onErrorMessageButtonClick = (evt) => {
+  evt.preventDefault();
+
+  // eslint-disable-next-line no-use-before-define
+  closeErrorMessage();
+};
+
+const showErrorMessage = () => {
+  const fragment = document.createDocumentFragment();
+  const errorMessage = errorMessageTemplate.cloneNode(true);
+  fragment.appendChild(errorMessage);
+  document.body.appendChild(fragment);
+
+  document.addEventListener('keydown', onErrorMessageEscKeydown);
+  document.body.addEventListener('click', onErrorMessageOutClick);
+  errorMessage.querySelector('.error__button').addEventListener('click', onErrorMessageButtonClick);
+};
+
+const closeErrorMessage = () => {
+  const errorMessage = document.querySelector('.error');
+  const errorMessageButton = errorMessage.querySelector('.error__button');
+
+  if (errorMessage) {
+    errorMessage.remove();
+  }
+
+  document.removeEventListener('keydown', onErrorMessageEscKeydown);
+  document.removeEventListener('click', onErrorMessageOutClick);
+  if (errorMessageButton) {
+    errorMessageButton.removeEventListener('click', onErrorMessageButtonClick);
+  }
+};
+
+const onErrorFormSubmit = () => {
+  hideForm();
+  showErrorMessage();
+};
+
+const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
 
   sendData(
     onSuccesFormSubmit,
-    () => console.log('Uhh'),
+    onErrorFormSubmit,
     new FormData(evt.target),
   );
 };
@@ -126,7 +186,7 @@ const addNewUserPhoto = () => {
     formCancelButton.addEventListener('click', onFormCancelButtonClick);
     document.addEventListener('keydown', onFormEscKeydown);
 
-    uploadForm.addEventListener('submit', onFormSubmit);
+    uploadForm.addEventListener('submit', onUploadFormSubmit);
   });
 };
 
