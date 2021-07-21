@@ -26,7 +26,7 @@ const renderPictureComments = (comments) => {
 
     picture.src = comment.avatar;
     picture.alt = comment.name;
-    text.textContent = comment.comment;
+    text.textContent = comment.message;
 
     fragment.appendChild(newComment);
   });
@@ -47,7 +47,6 @@ const hidePreviewOverlay = () => {
 
   document.body.classList.remove('modal-open');
   bigPictureOverlay.classList.add('hidden');
-  commentsLoader.removeEventListener('click', onCommentLoaderClick);
 };
 
 const showPreviewOverlay = (photo) => {

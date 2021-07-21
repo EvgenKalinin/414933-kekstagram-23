@@ -1,15 +1,24 @@
-import {addPhotos} from './gallery.js';
+import { showFilters, setFilterChangeHandler } from './filter.js';
+import { filterPhotos } from './sort.js';
+
+import {addPhotos, removePhotos} from './gallery.js';
 import {addNewUserPhoto} from './form.js';
 
-import {createPostedPhotos} from './mocks.js';
-
-const userPhotos = createPostedPhotos();
-
-/*
-setSorterBar((sortName) => {
-  userPhotos(sortName);
-});
-**/
+import { getData } from './api.js';
+import {showAlert} from './utils.js';
 
 addNewUserPhoto();
-addPhotos(userPhotos);
+showFilters();
+
+getData((photos) => {
+  addPhotos(photos);
+
+  setFilterChangeHandler((filterName) => {
+    const filteredPhotos = filterPhotos(photos, filterName);
+
+    removePhotos();
+    addPhotos(filteredPhotos);
+  });
+},
+() => showAlert('Упс! Что то пошло не так...'),
+);

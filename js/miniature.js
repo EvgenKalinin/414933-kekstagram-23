@@ -19,4 +19,6 @@ const createMiniature = (photo, onClick) => {
   return photoItem;
 };
 
-export {createMiniature};
+export {
+  createMiniature
+};
