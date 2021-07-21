@@ -88,6 +88,7 @@ const closeSuccessMessage = () => {
 
   document.removeEventListener('keydown', onSuccessMessageEscKeydown);
   document.removeEventListener('click', onSuccessMessageOutClick);
+  document.removeEventListener('keydown', onFormEscKeydown);
 };
 
 const showSuccessMessage = () => {
@@ -154,6 +155,7 @@ const closeErrorMessage = () => {
 
   document.removeEventListener('keydown', onErrorMessageEscKeydown);
   document.removeEventListener('click', onErrorMessageOutClick);
+  document.removeEventListener('keydown', onFormEscKeydown);
 };
 
 const onErrorFormSubmit = () => {

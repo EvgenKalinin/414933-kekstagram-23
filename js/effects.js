@@ -95,7 +95,7 @@ const hideSlider = () => {
 const onEffectListChange = (evt) => {
   currentEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
 
-  if (currentEffect === 'none') {
+  if (currentEffect.name === 'none') {
     hideSlider();
   } else {
     setEffect();

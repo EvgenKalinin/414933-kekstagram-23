@@ -1,3 +1,4 @@
+const ID_SYMBOL_COUNT = 7;
 const filters = document.querySelector('.img-filters');
 
 const Style = {
@@ -30,7 +31,7 @@ filters.addEventListener('click', (evt) => {
   target.classList.add(Style.ACTIVE);
 
   if (typeof onFilterChange === 'function') {
-    onFilterChange(target.id.slice(7));
+    onFilterChange(target.id.slice(ID_SYMBOL_COUNT));
   }
 });
 
