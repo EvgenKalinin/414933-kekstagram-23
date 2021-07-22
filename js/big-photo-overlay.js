@@ -74,7 +74,7 @@ const showPreviewOverlay = (photo) => {
     const pictureFragment = renderPictureComments(showedComments);
     bigPictureCommentsList.appendChild(pictureFragment);
 
-    if (comments.length >= COMMENT_STEP) {
+    if (comments.length > COMMENT_STEP) {
       commentsLoader.classList.remove('hidden');
       commentsLoader.addEventListener('click', onCommentLoaderClick);
     }
@@ -85,7 +85,7 @@ const showPreviewOverlay = (photo) => {
   }
 
   loadMoreComments = () => {
-    const showedCount = commentsToShow + COMMENT_STEP > comments.length
+    const showedCount = (commentsToShow + COMMENT_STEP > comments.length)
       ? comments.length
       : commentsToShow + COMMENT_STEP;
 
