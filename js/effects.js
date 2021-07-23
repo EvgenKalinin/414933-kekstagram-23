@@ -62,7 +62,7 @@ noUiSlider.create(effectSlider, {
   connect: 'lower',
 });
 
-let currentEffect = EFFECTS[0];
+let currentEffect = EFFECTS;
 
 effectSlider.noUiSlider.on('update', (values, handle) => {
   effectSliderValue.value = values[handle];

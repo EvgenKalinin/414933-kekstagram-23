@@ -1,4 +1,5 @@
 const COMMENT_STEP = 5;
+const DATUM_POINT = 0;
 
 let commentsToShow = 0;
 let loadMoreComments = null;
@@ -59,8 +60,8 @@ const showPreviewOverlay = (photo) => {
 
   const comments = photo.comments;
 
-  if (comments.length > 0) {
-    const showedComments = comments.slice(0, COMMENT_STEP);
+  if (comments.length > DATUM_POINT) {
+    const showedComments = comments.slice(DATUM_POINT, COMMENT_STEP);
 
     commentsShown.textContent = showedComments.length;
     commentsQuantity.textContent = comments.length;

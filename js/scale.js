@@ -1,6 +1,7 @@
 const SCALE_STEP = 25;
 const MIN_SCALE_VALUE = 25;
 const MAX_SCALE_VALUE = 100;
+const PERCENT_COEFFICIENT = 0.01;
 let currentScaleValue = MAX_SCALE_VALUE;
 
 const controlBigger = document.querySelector('.scale__control--bigger');
@@ -12,7 +13,7 @@ const imgPreview = imgPreviewContainer.querySelector('img');
 
 const setScale = (currentValue) => {
   controlValue.value =  `${currentValue}%`;
-  imgPreview.style.transform = `scale(${currentValue * 0.01})`;
+  imgPreview.style.transform = `scale(${currentValue * PERCENT_COEFFICIENT})`;
 };
 
 const onControlBiggerClick = (evt) => {
