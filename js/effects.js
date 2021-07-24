@@ -1,9 +1,5 @@
 import { imgPreview } from './scale.js';
 
-const effectSlider = document.querySelector('.effect-level__slider');
-const effectSliderValue = document.querySelector('.effect-level__value');
-const sliderContainer = document.querySelector('.effect-level');
-
 const EFFECTS = [
   {
     name: 'none',
@@ -52,20 +48,24 @@ const EFFECTS = [
   },
 ];
 
-const SliderParameters = {
+const SliderParameter = {
   MIN: 0,
   MAX: 1,
   START: 0.2,
   STEP: 0.1,
 };
+const effectSlider = document.querySelector('.effect-level__slider');
+const effectSliderValue = document.querySelector('.effect-level__value');
+const sliderContainer = document.querySelector('.effect-level');
+
 
 noUiSlider.create(effectSlider, {
   range: {
-    min: SliderParameters.MIN,
-    max: SliderParameters.MAX,
+    min: SliderParameter.MIN,
+    max: SliderParameter.MAX,
   },
-  start: SliderParameters.START,
-  step: SliderParameters.STEP,
+  start: SliderParameter.START,
+  step: SliderParameter.STEP,
   connect: 'lower',
 });
 
