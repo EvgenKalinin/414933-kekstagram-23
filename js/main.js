@@ -7,6 +7,8 @@ import {addNewUserPhoto} from './form.js';
 import { getData } from './api.js';
 import {showAlert} from './utils.js';
 
+import './upload-user-picture.js';
+
 addNewUserPhoto();
 showFilters();
 

@@ -1,10 +1,11 @@
 const ID_SYMBOL_COUNT = 7;
-const filters = document.querySelector('.img-filters');
 
 const Style = {
   INACTIVE: 'img-filters--inactive',
   ACTIVE: 'img-filters__button--active',
 };
+
+const filters = document.querySelector('.img-filters');
 
 let onFilterChange = null;
 
@@ -30,10 +31,7 @@ filters.addEventListener('click', (evt) => {
   activetFilter.classList.remove(Style.ACTIVE);
   target.classList.add(Style.ACTIVE);
 
-  if (typeof onFilterChange === 'function') {
-    onFilterChange(target.id.slice(ID_SYMBOL_COUNT));
-  }
+  onFilterChange(target.id.slice(ID_SYMBOL_COUNT));
 });
-
 
 export {setFilterChangeHandler, showFilters};

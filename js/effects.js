@@ -52,13 +52,20 @@ const EFFECTS = [
   },
 ];
 
+const SliderParameters = {
+  MIN: 0,
+  MAX: 1,
+  START: 0.2,
+  STEP: 0.1,
+};
+
 noUiSlider.create(effectSlider, {
   range: {
-    min: 0,
-    max: 1,
+    min: SliderParameters.MIN,
+    max: SliderParameters.MAX,
   },
-  start: 0.2,
-  step: 0.1,
+  start: SliderParameters.START,
+  step: SliderParameters.STEP,
   connect: 'lower',
 });
 
