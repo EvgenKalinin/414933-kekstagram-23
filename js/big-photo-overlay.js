@@ -3,13 +3,11 @@ const COMMENT_STEP = 5;
 let commentsToShow = 0;
 let loadMoreComments = null;
 
-
 const bigPictureOverlay = document.querySelector('.big-picture');
 const bigPictureImage = bigPictureOverlay.querySelector('.big-picture__img img');
 const bigPictureLikes = bigPictureOverlay.querySelector('.likes-count');
 const bigPictureCaption = bigPictureOverlay.querySelector('.social__caption');
 const bigPictureCommentsList = bigPictureOverlay.querySelector('.social__comments');
-const commentsCount = bigPictureOverlay.querySelector('.social__comment-count');
 const commentsShown = bigPictureOverlay.querySelector('.comments-shown');
 const commentsQuantity = bigPictureOverlay.querySelector('.comments-count');
 const commentsLoader = bigPictureOverlay.querySelector('.social__comments-loader');
@@ -34,12 +32,39 @@ const renderPictureComments = (comments) => {
   return fragment;
 };
 
-const onCommentLoaderClick = (evt) => {
+function onCommentLoaderClick(evt)  {
   evt.preventDefault();
 
-  if (typeof loadMoreComments === 'function') {
-    loadMoreComments();
+  loadMoreComments();
+}
+
+const showCommentsLoader = () => {
+  commentsToShow = 0;
+  commentsLoader.classList.remove('hidden');
+  commentsLoader.addEventListener('click', onCommentLoaderClick);
+};
+
+const hideCommentsLoader = () => {
+  commentsLoader.classList.add('hidden');
+  commentsLoader.removeEventListener('click', onCommentLoaderClick);
+};
+
+const renderComments = (comments) => {
+  const showedCount = commentsToShow + COMMENT_STEP > comments.length
+    ? comments.length
+    : commentsToShow + COMMENT_STEP;
+
+  commentsShown.textContent = showedCount;
+  commentsQuantity.textContent = comments.length;
+
+  const nextShowedComments = comments.slice(commentsToShow, showedCount);
+  bigPictureCommentsList.appendChild(renderPictureComments(nextShowedComments));
+
+  if (showedCount >= comments.length) {
+    hideCommentsLoader();
   }
+
+  commentsToShow = showedCount;
 };
 
 const hidePreviewOverlay = () => {
@@ -59,48 +84,11 @@ const showPreviewOverlay = (photo) => {
 
   const comments = photo.comments;
 
-  if (comments.length > 0) {
-    const showedComments = comments.slice(0, COMMENT_STEP);
-
-    commentsShown.textContent = showedComments.length;
-    commentsQuantity.textContent = comments.length;
-
-    commentsToShow = showedComments.length;
-
-    bigPictureCommentsList.classList.remove('hidden');
-    commentsCount.classList.remove('hidden');
-    commentsLoader.classList.add('hidden');
-
-    const pictureFragment = renderPictureComments(showedComments);
-    bigPictureCommentsList.appendChild(pictureFragment);
-
-    if (comments.length >= COMMENT_STEP) {
-      commentsLoader.classList.remove('hidden');
-      commentsLoader.addEventListener('click', onCommentLoaderClick);
-    }
-  } else {
-    bigPictureCommentsList.classList.add('hidden');
-    commentsCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
-  }
+  showCommentsLoader();
+  renderComments(comments);
 
   loadMoreComments = () => {
-    const showedCount = commentsToShow + COMMENT_STEP > comments.length
-      ? comments.length
-      : commentsToShow + COMMENT_STEP;
-
-    const nextShowedComments = comments.slice(commentsToShow, showedCount);
-
-    commentsToShow = showedCount;
-    commentsShown.textContent = showedCount;
-
-    const pictureFragment = renderPictureComments(nextShowedComments);
-    bigPictureCommentsList.appendChild(pictureFragment);
-
-    if (showedCount >= comments.length) {
-      commentsLoader.classList.add('hidden');
-      commentsLoader.removeEventListener('click', onCommentLoaderClick);
-    }
+    renderComments(comments);
   };
 
   bigPictureOverlay.classList.remove('hidden');
