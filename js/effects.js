@@ -1,5 +1,6 @@
 import { imgPreview } from './scale.js';
 
+const DEFAULT_EFFECT_INDEX = 0;
 const EFFECTS = [
   {
     name: 'none',
@@ -69,7 +70,7 @@ noUiSlider.create(effectSlider, {
   connect: 'lower',
 });
 
-let currentEffect = EFFECTS;
+let currentEffect = EFFECTS[DEFAULT_EFFECT_INDEX];
 
 effectSlider.noUiSlider.on('update', (values, handle) => {
   effectSliderValue.value = values[handle];
